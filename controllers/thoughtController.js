@@ -56,11 +56,10 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
       if (!thought) {
-        return res.status(404).json({ message: 'Thought Not Found' });
+        res.status(404).json({ message: 'Thought Not Found' });
       }
       res.json({ message: 'Thought Removed' });
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   },
@@ -73,9 +72,7 @@ module.exports = {
         { runValidators: true, new: true }
       );
       if (!thought) {
-        return res
-          .status(404)
-          .json({ message: 'No Thought associated with ID' });
+        res.status(404).json({ message: 'No Thought associated with ID' });
       }
       res.json(thought);
     } catch (err) {
@@ -87,13 +84,11 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reactions: { reactionId: req.body.reactionId } } },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       );
       if (!thought) {
-        return res
-          .status(404)
-          .json({ message: 'No Thought associated with ID' });
+        res.status(404).json({ message: 'No Thought associated with ID' });
       }
       res.json(thought);
     } catch (err) {
